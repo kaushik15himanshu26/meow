@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Scene</title>
+    <style>
+        /* Scene container */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Georgia', serif;
+            background: #000;
+        }
+
+        .scene {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        /* Room background with soft glow overlay */
+        .room-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            filter: brightness(0.7) blur(0.5px);
+        }
+
+        .overlay-light {
+            position: absolute;
+            top:0; left:0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,182,193,0.15);
+            z-index: 1;
+        }
+
+        /* Cake */
+        .cake {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 220px;
+            z-index: 2;
+            animation: floatCake 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatCake {
+            0% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-5px); }
+            100% { transform: translateX(-50%) translateY(0); }
+        }
+
+        /* Girl */
+        .girl {
+            position: absolute;
+            bottom: 50px;
+            left: 65%;
+            transform: translateX(-50%);
+            height: 350px;
+            z-index: 3;
+            animation: floatGirl 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatGirl {
+            0% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-3px); }
+            100% { transform: translateX(-50%) translateY(0); }
+        }
+
+        /* Birthday text */
+        #birthday-text {
+            position: absolute;
+            top: 10%;
+            width: 100%;
+            text-align: center;
+            font-size: 2em;
+            color: #fff;
+            text-shadow: 3px 3px 12px #000;
+            opacity: 0;
+        }
+
+        /* Fade-in effect for each word */
+        .word {
+            opacity: 0;
+            display: inline-block;
+            animation: fadeInWord 0.8s forwards;
+        }
+
+        @keyframes fadeInWord {
+            to { opacity: 1; }
+        }
+
+        /* Back button */
+        .back-btn {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px 25px;
+            font-size: 1.2em;
+            color: #ff9ec2;
+            border: 2px solid #ff9ec2;
+            border-radius: 12px;
+            background: transparent;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #ff9ec2;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="scene">
+        <!-- Room background -->
+        <img src="https://images.unsplash.com/photo-1600488991443-8be4aef82869?auto=format&fit=crop&w=1950&q=80" class="room-bg">
+        <div class="overlay-light"></div>
+
+        <!-- Cake -->
+        <img src="https://cdn-icons-png.flaticon.com/512/685/685352.png" class="cake">
+
+        <!-- Girl -->
+        <img src="https://cdn-icons-png.flaticon.com/512/1998/1998592.png" class="girl">
+
+        <!-- Birthday text -->
+        <div id="birthday-text">
+            Happy happy happy and the happiest birthday to you my happy child
+        </div>
+
+        <button class="back-btn" onclick="window.location.href='index.html'">← Back</button>
+    </div>
+
+    <script>
+        // Word-by-word fade-in text
+        const textContainer = document.getElementById('birthday-text');
+        const fullText = textContainer.innerText;
+        const words = fullText.split(' ');
+        textContainer.innerHTML = '';
+        textContainer.style.opacity = 1;
+
+        let i = 0;
+        function typeWord() {
+            if (i < words.length) {
+                const span = document.createElement('span');
+                span.className = 'word';
+                span.style.animationDelay = (i * 0.5) + 's';
+                span.innerText = words[i] + ' ';
+                textContainer.appendChild(span);
+                i++;
+                setTimeout(typeWord, 300);
+            }
+        }
+
+        window.onload = () => {
+            typeWord();
+        };
+    </script>
+</body>
+</html>
